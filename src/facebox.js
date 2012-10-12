@@ -260,10 +260,15 @@
           if($.facebox.settings.resizeToFit){
             //resizing the image so it can be completely shown in the viewpoint
             var winHeight = $(window).height();
-            if(imgHeight > winHeight-250){
-              imgWidth =  (winHeight-250) * imgWidth / imgHeight
-          	  imgHeight =  winHeight-250;
+            if(imgHeight > winHeight-100){
+              imgWidth =  (winHeight-100) * imgWidth / imgHeight
+          	  imgHeight =  winHeight-100;
             }
+            var winWidth = $(window).width();
+    				if (imgWidth > winWidth - 50) {
+    					imgHeight = (winWidth - 100) * imgHeight / imgWidth
+    					imgWidth = winWidth - 100;
+    				}
           }
           $.facebox.reveal('<div class="image"><img height="'+imgHeight+'" width="'+imgWidth+'" src="' + image.src + '" /></div>', klass)
         }
