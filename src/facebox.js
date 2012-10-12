@@ -84,6 +84,7 @@
     settings: {
       opacity      : 0.2,
       overlay      : true,
+      resizeToFit : true,
       loadingImage : '/facebox/loading.gif',
       closeImage   : '/facebox/closelabel.png',
       imageTypes   : [ 'png', 'jpg', 'jpeg', 'gif' ],
@@ -254,8 +255,23 @@
   function fillFaceboxFromImage(href, klass) {
     var image = new Image()
     image.onload = function() {
-      $.facebox.reveal('<div class="image"><img src="' + image.src + '" /></div>', klass)
-    }
+          var imgHeight = image.height;
+          var imgWidth = image.width;
+          if($.facebox.settings.resizeToFit){
+            //resizing the image so it can be completely shown in the viewpoint
+            var winHeight = $(window).height();
+            if(imgHeight > winHeight-250){
+              imgWidth =  (winHeight-250) * imgWidth / imgHeight
+          	  imgHeight =  winHeight-250;
+            }
+          }
+          $.facebox.reveal('<div class="image"><img height="'+imgHeight+'" width="'+imgWidth+'" src="' + image.src + '" /></div>', klass)
+        }
+        //if the image is missing show a message and the close button
+        image.onerror = function() {
+          $.facebox.reveal('<div class="image">missing image</div>', klass)
+        }
+        
     image.src = href
   }
 
